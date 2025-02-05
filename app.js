@@ -3,18 +3,48 @@ let amigos = [];
 function agregarAmigo() {
   // Obtener el valor del input
   let campoNombre = document.getElementById("nombreAmigo");
-  let nombreIngresado = input.value.trim(); // El .trim elimina los espacios en blanco que por error esten escritos en el cuadro de texto
+  let nombreIngresado = campoNombre.value.trim(); // Elimina espacios en blanco
 
   if (nombreIngresado === "") {
     alert("Por favor inserte un nombre");
     return;
   }
   if (amigos.includes(nombreIngresado)) {
-    alert("Este nombre ya esta en la lista");
+    alert("Este nombre ya está en la lista");
     return;
   }
+
   amigos.push(nombreIngresado);
-  input.value = "";
+  campoNombre.value = "";
+  actualizarLista();
 }
 
-console.log(amigos);
+function actualizarLista() {
+  let lista = document.getElementById("listaAmigos");
+  lista.innerHTML = ""; // Limpiar la lista antes de actualizarla
+
+  amigos.forEach((amigo) => {
+    let li = document.createElement("li");
+    li.textContent = amigo;
+    lista.appendChild(li);
+  });
+}
+
+function sortearAmigo() {
+  let resultado = document.getElementById("resultado");
+
+  if (amigos.length === 0) {
+    resultado.innerHTML = "<li>No hay amigos en la lista.</li>";
+    return;
+  }
+
+  // Generar un índice aleatorio
+  let indiceAleatorio = Math.floor(Math.random() * amigos.length);
+
+  // Obtener el nombre sorteado
+  let amigoSorteado = amigos[indiceAleatorio];
+
+  // Mostrar el resultado en la lista de resultados
+  resultado.innerHTML = `<li> Tu amigo secreto es: <strong>${amigoSorteado}</strong> </li>`;
+}
+
